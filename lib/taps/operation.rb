@@ -18,6 +18,7 @@ class Operation
 
 	def initialize(database_url, remote_url, opts={})
 		@database_url = database_url
+		@schema = opts[:schema]
 		@remote_url = remote_url
 		@opts = opts
 		@exiting = false
@@ -117,7 +118,11 @@ class Operation
 	end
 
 	def db
-		@db ||= Sequel.connect(database_url)
+		@db ||= begin
+			@db = Sequel.connect(database_url)
+			@db.run("ALTER SESSION SET current_schema=#{@schema}") if @schema
+			@db
+		end
 	end
 
 	def server

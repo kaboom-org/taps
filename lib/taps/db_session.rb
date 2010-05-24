@@ -6,12 +6,14 @@ class DbSession < Sequel::Model
 		primary_key :id
 		text :key
 		text :database_url
+		text :schema
 		timestamp :started_at
 		timestamp :last_access
 	end
 
 	def conn
 		Sequel.connect(database_url) do |db|
+			db.run("ALTER SESSION SET current_schema=#{schema}") if schema
 			yield db if block_given?
 		end
 	end
