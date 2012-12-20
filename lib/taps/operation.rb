@@ -120,7 +120,7 @@ class Operation
 	def db
 		@db ||= begin
 			@db = Sequel.connect(database_url)
-			@db.run("ALTER SESSION SET current_schema=#{@schema}") if @schema
+			@db.run("SET search_path=#{@schema}") if @schema # TODO not db-agnostic, making pg specific for now, but we should make this db-agnostic and release it
 			@db
 		end
 	end
