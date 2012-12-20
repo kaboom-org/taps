@@ -13,7 +13,7 @@ class DbSession < Sequel::Model
 
   def conn
     Sequel.connect(database_url) do |db|
-      db.run("ALTER SESSION SET current_schema=#{schema}") if schema
+			db.run("SET search_path=#{schema}") if schema #not db-agnostic, making PG specific right now, we should make this db-agnostic
       yield db if block_given?
     end
   end

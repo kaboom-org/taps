@@ -1,6 +1,6 @@
 require 'rubygems'
 require 'bacon'
-require 'mocha'
+require 'mocha/setup'
 require 'rack/test'
 require 'tempfile'
 
