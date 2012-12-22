@@ -1,7 +1,7 @@
 require 'rubygems'
 require 'bacon'
-require 'mocha/setup'
 require 'rack/test'
+require 'mocha/api'
 require 'tempfile'
 
 $:.unshift File.dirname(__FILE__) + "/../lib"
@@ -19,6 +19,10 @@ class Bacon::Context
       mocha_teardown
     end
   end
+end
+
+RSpec.configure do |config|
+    config.include Rack::Test::Methods
 end
 
 require 'taps/config'
