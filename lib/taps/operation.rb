@@ -18,6 +18,7 @@ class Operation
 
 	def initialize(database_url, remote_url, opts={})
 		@database_url = database_url
+		@schema = opts[:schema]
 		@remote_url = remote_url
 		@opts = opts
 		@exiting = false
@@ -117,7 +118,11 @@ class Operation
 	end
 
 	def db
-		@db ||= Sequel.connect(database_url)
+		@db ||= begin
+			@db = Sequel.connect(database_url)
+			@db.run("SET search_path=#{@schema}") if @schema # TODO not db-agnostic, making pg specific for now, but we should make this db-agnostic and release it
+			@db
+		end
 	end
 
 	def server
