@@ -77,26 +77,9 @@ END_MIG
 		db = Sequel.connect(database_url)
 		return unless db.respond_to?(:reset_primary_key_sequence)
 		db.tables.each do |table|
-      table = finalize_table_name(table, database_url)
 			db.reset_primary_key_sequence(table)
 		end
 	end
-
-  private
-
-  def finalize_table_name(table, database_url)
-    db_conn_params = CGI.parse(URI.parse(database_url).query)
-    return table unless schema_defined?(db_conn_params)
-    "#{return_schema(db_conn_params)}.#{table}"
-  end
-
-  def return_schema(db_conn_params)
-    db_conn_params['default_schema'].first
-  end
-
-  def schema_defined?(db_conn_params)
-    db_conn_params.key?('default_schema') && !db_conn_params['default_schema'].first.empty?
-  end
 
 end
 end
