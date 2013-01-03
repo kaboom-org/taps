@@ -86,7 +86,7 @@ EOHELP
   end
 
   def serveroptparse
-    opts={:port => 5000, :database_url => nil, :login => nil, :password => nil, :debug => false, :schema > nil}
+    opts={:port => 5000, :database_url => nil, :login => nil, :password => nil, :debug => false, :schema => nil}
     OptionParser.new do |o|
       o.banner = "Usage: #{File.basename($0)} server [OPTIONS] <local_database_url> <login> <password>"
       o.define_head "Start a taps database import/export server"
